@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Lead</title>
+    <link rel="stylesheet" href="/source/styles.css">
+</head>
+<body>
+<h1>Add New Lead</h1>
+<form action="/submit_lead" method="post">
+    <label>First Name: <input type="text" name="firstName" required></label><br>
+    <label>Last Name: <input type="text" name="lastName" required></label><br>
+    <label>Phone: <input type="text" name="phone" required></label><br>
+    <label>Email: <input type="email" name="email" required></label><br>
+    <button type="submit">Submit Lead</button>
+</form>
+<br>
+<a href="/leads">View Leads Statuses</a>
+</body>
+</html>
