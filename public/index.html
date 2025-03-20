@@ -5,10 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Lead</title>
     <link rel="stylesheet" href="/source/styles.css">
+    <script>
+        function validateForm(event) {
+            const firstName = document.forms["leadForm"]["firstName"].value.trim();
+            const lastName = document.forms["leadForm"]["lastName"].value.trim();
+            const phone = document.forms["leadForm"]["phone"].value.trim();
+            const email = document.forms["leadForm"]["email"].value.trim();
+
+            if (!firstName || !lastName || !phone || !email) {
+                alert("All fields are required.");
+                event.preventDefault();
+                return false;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Invalid email format.");
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <h1>Add New Lead</h1>
-<form method="post" action="/submit_lead">
+<form name="leadForm" method="post" action="/submit_lead" onsubmit="return validateForm(event)">
     <label>First Name: <input type="text" name="firstName" required></label><br>
     <label>Last Name: <input type="text" name="lastName" required></label><br>
     <label>Phone: <input type="text" name="phone" required></label><br>
@@ -19,3 +41,35 @@
 <a href="/leads">View Leads Statuses</a>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads Status</title>
+</head>
+<body>
+<h1>Leads Status</h1>
+<form method="get" action="/leads">
+    <label>From: <input type="date" name="date_from"></label>
+    <label>To: <input type="date" name="date_to"></label>
+    <button type="submit">Filter</button>
+</form>
+<table border="1">
+    <tr><th>ID</th><th>Email</th><th>Status</th><th>FTD</th></tr>
+    <?php foreach ($leads as $lead) {
+        echo "<tr><td>{$lead['id']}</td><td>{$lead['email']}</td><td>{$lead['status']}</td><td>{$lead['ftd']}</td></tr>";
+    } ?>
+</table>
+</body>
+</html>
+
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+    form { background: white; padding: 20px; border-radius: 8px; }
+    input, button { display: block; margin-bottom: 10px; padding: 8px; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background-color: #ddd; }
+</style>
